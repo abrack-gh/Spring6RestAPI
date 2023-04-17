@@ -1,12 +1,15 @@
 package com.s6restapi.spring6restapi.model;
 
+import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Builder
 @Data
 public class Beer {
 
@@ -16,7 +19,7 @@ public class Beer {
     private BeerStyle beerStyle;
     private String upc;
     private Integer quantityOnHand;
-    private BigInteger price;
+    private BigDecimal price;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 }
