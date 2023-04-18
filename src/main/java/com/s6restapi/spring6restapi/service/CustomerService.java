@@ -1,5 +1,6 @@
 package com.s6restapi.spring6restapi.service;
 
+import com.s6restapi.spring6restapi.model.Beer;
 import com.s6restapi.spring6restapi.model.Customer;
 
 import java.util.List;
@@ -10,4 +11,6 @@ public interface CustomerService {
     List<Customer> listCustomer();
 
     Customer getCustomerById(UUID id);
+
+    Customer saveCustomer(Customer customer);
 }

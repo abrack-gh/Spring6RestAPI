@@ -1,5 +1,6 @@
 package com.s6restapi.spring6restapi.service;
 
+import com.s6restapi.spring6restapi.model.Beer;
 import com.s6restapi.spring6restapi.model.Customer;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +49,22 @@ public class CustomerServiceImpl implements CustomerService {
 
     }
 
+    @Override
+    public Customer saveCustomer(Customer customer) {
+
+        Customer savedCustomer = Customer.builder()
+                .id(UUID.randomUUID())
+                .customerName(customer.getCustomerName())
+                .version(1)
+                .createdDate(LocalDateTime.now())
+                .lastModifiedDate(LocalDateTime.now())
+                .build();
+
+        customerMap.put(savedCustomer.getId(), savedCustomer);
+
+        return savedCustomer;
+    }
+
 
     @Override
     public List<Customer> listCustomer() {
@@ -58,4 +75,6 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer getCustomerById(UUID id) {
         return customerMap.get(id);
     }
+
+
 }
