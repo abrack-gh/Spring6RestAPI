@@ -3,6 +3,7 @@ package com.s6restapi.spring6restapi.service;
 import com.s6restapi.spring6restapi.model.Beer;
 import com.s6restapi.spring6restapi.model.Customer;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -79,6 +80,15 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void deleteById(UUID customerId) {
         customerMap.remove(customerId);
+    }
+
+    @Override
+    public void updatePatchById(UUID customerId, Customer customer) {
+        Customer existing = customerMap.get(customerId);
+
+        if(StringUtils.hasText(customer.getCustomerName())){
+            existing.setCustomerName(customer.getCustomerName());
+        }
     }
 
 
