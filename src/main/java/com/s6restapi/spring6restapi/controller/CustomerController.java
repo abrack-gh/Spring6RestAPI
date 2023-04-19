@@ -1,6 +1,5 @@
 package com.s6restapi.spring6restapi.controller;
 
-import com.s6restapi.spring6restapi.model.Beer;
 import com.s6restapi.spring6restapi.model.Customer;
 import com.s6restapi.spring6restapi.service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -20,6 +19,14 @@ import java.util.UUID;
 public class CustomerController {
 
     private final CustomerService customerService;
+
+    @DeleteMapping("{customerId}")
+    public ResponseEntity deleteById(@PathVariable("customerId")UUID customerId){
+
+        customerService.deleteById(customerId);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 
     @PutMapping("{customerId}")
     public ResponseEntity updateById(@PathVariable("customerId")UUID customerId, @RequestBody Customer customer){
