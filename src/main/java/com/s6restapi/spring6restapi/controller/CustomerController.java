@@ -16,12 +16,14 @@ import java.util.UUID;
 @Slf4j
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/v1/customer")
 public class CustomerController {
 
     private final CustomerService customerService;
 
-    @PatchMapping("{customerId}")
+    public static final String CUSTOMER_PATH = "/api/v1/customer";
+    public static final String CUSTOMER_PATH_ID = CUSTOMER_PATH + "/{customerId}";
+
+    @PatchMapping(CUSTOMER_PATH_ID)
     public ResponseEntity updatePatchById(@PathVariable("customerId")UUID customerId, @RequestBody Customer customer){
 
         customerService.updateCustomerById(customerId, customer);
@@ -29,7 +31,7 @@ public class CustomerController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("{customerId}")
+    @DeleteMapping(CUSTOMER_PATH_ID)
     public ResponseEntity deleteById(@PathVariable("customerId")UUID customerId){
 
         customerService.deleteById(customerId);
@@ -37,7 +39,7 @@ public class CustomerController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("{customerId}")
+    @PutMapping(CUSTOMER_PATH_ID)
     public ResponseEntity updateById(@PathVariable("customerId")UUID customerId, @RequestBody Customer customer){
 
         customerService.updateCustomerById(customerId, customer);
@@ -51,7 +53,7 @@ public class CustomerController {
         Customer savedCustomer = customerService.saveCustomer(customer);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", "/api/v1/customer/" + savedCustomer.getId().toString());
+        headers.add("Location", CUSTOMER_PATH + savedCustomer.getId().toString());
 
         return new ResponseEntity(headers, HttpStatus.CREATED);
 
