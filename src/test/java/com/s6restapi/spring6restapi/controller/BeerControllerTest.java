@@ -1,20 +1,20 @@
 package com.s6restapi.spring6restapi.controller;
 
+import com.s6restapi.spring6restapi.model.Beer;
 import com.s6restapi.spring6restapi.service.BeerService;
+import com.s6restapi.spring6restapi.service.BeerServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.hamcrest.core.Is.is;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(BeerController.class)
 class BeerControllerTest {
@@ -25,11 +25,31 @@ class BeerControllerTest {
     @MockBean
     BeerService beerService;
 
+    BeerServiceImpl beerServiceImpl = new BeerServiceImpl();
+
+    @Test
+    void testBeerList() throws Exception {
+        given(beerService.listBeers()).willReturn(beerServiceImpl.listBeers());
+
+        mockMvc.perform(get("/api/v1/beer")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.length()", is(3)));
+    }
+
     @Test
     void getBeerById() throws Exception {
 
-       mockMvc.perform(get("/api/v1/beer/" + UUID.randomUUID())
+        Beer testBeer = beerServiceImpl.listBeers().get(0);
+
+        given(beerService.getBeerById(testBeer.getId())).willReturn(testBeer);
+
+       mockMvc.perform(get("/api/v1/beer/" + testBeer.getId())
                .accept(MediaType.APPLICATION_JSON))
-               .andExpect(status().isOk());
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$.id", is(testBeer.getId().toString())))
+               .andExpect(jsonPath("$.beerName", is(testBeer.getBeerName())));
     }
 }
