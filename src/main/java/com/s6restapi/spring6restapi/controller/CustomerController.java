@@ -24,7 +24,7 @@ public class CustomerController {
     @PatchMapping("{customerId}")
     public ResponseEntity updatePatchById(@PathVariable("customerId")UUID customerId, @RequestBody Customer customer){
 
-        customerService.updatePatchById(customerId, customer);
+        customerService.updateCustomerById(customerId, customer);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
