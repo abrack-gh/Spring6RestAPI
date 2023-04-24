@@ -1,7 +1,6 @@
 package com.s6restapi.spring6restapi.controller;
 
-import com.s6restapi.spring6restapi.model.Beer;
-import com.s6restapi.spring6restapi.model.Customer;
+import com.s6restapi.spring6restapi.model.CustomerDTO;
 import com.s6restapi.spring6restapi.service.CustomerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +23,7 @@ public class CustomerController {
     public static final String CUSTOMER_PATH_ID = CUSTOMER_PATH + "/{customerId}";
 
     @PatchMapping(CUSTOMER_PATH_ID)
-    public ResponseEntity updatePatchById(@PathVariable("customerId")UUID customerId, @RequestBody Customer customer){
+    public ResponseEntity updatePatchById(@PathVariable("customerId")UUID customerId, @RequestBody CustomerDTO customer){
 
         customerService.updateCustomerById(customerId, customer);
 
@@ -40,7 +39,7 @@ public class CustomerController {
     }
 
     @PutMapping(CUSTOMER_PATH_ID)
-    public ResponseEntity updateById(@PathVariable("customerId")UUID customerId, @RequestBody Customer customer){
+    public ResponseEntity updateById(@PathVariable("customerId")UUID customerId, @RequestBody CustomerDTO customer){
 
         customerService.updateCustomerById(customerId, customer);
 
@@ -48,9 +47,9 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity postCustomer(@RequestBody Customer customer){
+    public ResponseEntity postCustomer(@RequestBody CustomerDTO customer){
 
-        Customer savedCustomer = customerService.saveCustomer(customer);
+        CustomerDTO savedCustomer = customerService.saveCustomer(customer);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", CUSTOMER_PATH + savedCustomer.getId().toString());
@@ -60,12 +59,12 @@ public class CustomerController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Customer> listCustomer(){
+    public List<CustomerDTO> listCustomer(){
         return customerService.listCustomer();
     }
 
     @RequestMapping(value = "{customerId}", method = RequestMethod.GET)
-    public Customer getCustomerById(@PathVariable("customerId") UUID customerId){
+    public CustomerDTO getCustomerById(@PathVariable("customerId") UUID customerId){
 
         return customerService.getCustomerById(customerId).orElseThrow(NotFoundException::new);
     }

@@ -1,6 +1,6 @@
 package com.s6restapi.spring6restapi.service;
 
-import com.s6restapi.spring6restapi.model.Beer;
+import com.s6restapi.spring6restapi.model.BeerDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,15 +8,15 @@ import java.util.UUID;
 
 public interface BeerService {
 
-    List<Beer> listBeers();
+    List<BeerDTO> listBeers();
 
-    Optional<Beer> getBeerById(UUID id);
+    Optional<BeerDTO> getBeerById(UUID id);
 
-    Beer saveBeer(Beer beer);
+    BeerDTO saveBeer(BeerDTO beer);
 
-    void updateBeerById(UUID beerId, Beer beer);
+    void updateBeerById(UUID beerId, BeerDTO beer);
 
     void deleteById(UUID beerId);
 
-    void updatePatchById(UUID beerId, Beer beer);
+    void updatePatchById(UUID beerId, BeerDTO beer);
 }
