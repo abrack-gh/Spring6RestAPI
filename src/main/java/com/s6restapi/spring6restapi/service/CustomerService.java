@@ -1,5 +1,6 @@
 package com.s6restapi.spring6restapi.service;
 
+import com.s6restapi.spring6restapi.entities.Customer;
 import com.s6restapi.spring6restapi.model.CustomerDTO;
 
 import java.util.List;

@@ -1,5 +1,6 @@
 package com.s6restapi.spring6restapi.service;
 
+import com.s6restapi.spring6restapi.entities.Customer;
 import com.s6restapi.spring6restapi.model.CustomerDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -70,11 +71,11 @@ public class CustomerServiceImpl implements CustomerService {
 
         CustomerDTO existingCustomer = customerMap.get(customerId);
 
-            existingCustomer.setCustomerName(customer.getCustomerName());
+        existingCustomer.setCustomerName(customer.getCustomerName());
 
-            customerMap.put(existingCustomer.getId(), existingCustomer);
+        customerMap.put(existingCustomer.getId(), existingCustomer);
 
-        }
+    }
 
     @Override
     public void deleteById(UUID customerId) {

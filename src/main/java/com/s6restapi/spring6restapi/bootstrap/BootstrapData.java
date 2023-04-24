@@ -2,6 +2,8 @@ package com.s6restapi.spring6restapi.bootstrap;
 
 import com.s6restapi.spring6restapi.entities.Beer;
 import com.s6restapi.spring6restapi.entities.Customer;
+import com.s6restapi.spring6restapi.mappers.BeerMapper;
+import com.s6restapi.spring6restapi.model.BeerDTO;
 import com.s6restapi.spring6restapi.model.BeerStyle;
 import com.s6restapi.spring6restapi.repositories.BeerRepository;
 import com.s6restapi.spring6restapi.repositories.CustomerRepository;
@@ -12,6 +14,9 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -22,30 +27,72 @@ public class BootstrapData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
-        loadCustomerData();
         loadBeerData();
+        loadCustomerData();
+    }
+
+    private void loadBeerData() {
+        if (beerRepository.count() == 0){
+            Beer beer1 = Beer.builder()
+                    .beerName("Galaxy Cat")
+                    .beerStyle(BeerStyle.PALE_ALE)
+                    .upc("12356")
+                    .price(new BigDecimal("12.99"))
+                    .quantityOnHand(122)
+                    .createdDate(LocalDateTime.now())
+                    .updatedDate(LocalDateTime.now())
+                    .build();
+
+            Beer beer2 = Beer.builder()
+                    .beerName("Crank")
+                    .beerStyle(BeerStyle.PALE_ALE)
+                    .upc("12356222")
+                    .price(new BigDecimal("11.99"))
+                    .quantityOnHand(392)
+                    .createdDate(LocalDateTime.now())
+                    .updatedDate(LocalDateTime.now())
+                    .build();
+
+            Beer beer3 = Beer.builder()
+                    .beerName("Sunshine City")
+                    .beerStyle(BeerStyle.IPA)
+                    .upc("12356")
+                    .price(new BigDecimal("13.99"))
+                    .quantityOnHand(144)
+                    .createdDate(LocalDateTime.now())
+                    .updatedDate(LocalDateTime.now())
+                    .build();
+
+            beerRepository.save(beer1);
+            beerRepository.save(beer2);
+            beerRepository.save(beer3);
+        }
 
     }
 
     private void loadCustomerData() {
 
-        if(customerRepository.count() == 0) {
-
+        if (customerRepository.count() == 0) {
             Customer customer1 = Customer.builder()
-                    .customerName("Alex Brack")
+                    .id(UUID.randomUUID())
+                    .customerName("Customer 1")
+                    .version(1)
                     .createdDate(LocalDateTime.now())
                     .lastModifiedDate(LocalDateTime.now())
                     .build();
 
             Customer customer2 = Customer.builder()
-                    .customerName("Tonald Drump")
+                    .id(UUID.randomUUID())
+                    .customerName("Customer 2")
+                    .version(1)
                     .createdDate(LocalDateTime.now())
                     .lastModifiedDate(LocalDateTime.now())
                     .build();
 
             Customer customer3 = Customer.builder()
-                    .customerName("Lionel Pessi")
+                    .id(UUID.randomUUID())
+                    .customerName("Customer 3")
+                    .version(1)
                     .createdDate(LocalDateTime.now())
                     .lastModifiedDate(LocalDateTime.now())
                     .build();
@@ -55,43 +102,5 @@ public class BootstrapData implements CommandLineRunner {
 
     }
 
-    private void loadBeerData() {
 
-        if(beerRepository.count() == 0) {
-
-            Beer beer1 = Beer.builder()
-                    .beerName("BrackBeer")
-                    .beerStyle(BeerStyle.PALE_ALE)
-                    .upc("126")
-                    .price(new BigDecimal("4.99"))
-                    .quantityOnHand(12)
-                    .createdDate(LocalDateTime.now())
-                    .updatedDate(LocalDateTime.now())
-                    .build();
-
-            Beer beer2 = Beer.builder()
-                    .beerName("Test Ickle Lager")
-                    .beerStyle(BeerStyle.LAGER)
-                    .upc("1235")
-                    .price(new BigDecimal("3.99"))
-                    .quantityOnHand(92)
-                    .createdDate(LocalDateTime.now())
-                    .updatedDate(LocalDateTime.now())
-                    .build();
-
-            Beer beer3 = Beer.builder()
-                    .beerName("Don Pollo Real Ale")
-                    .beerStyle(BeerStyle.ALE)
-                    .upc("1236")
-                    .price(new BigDecimal("10.99"))
-                    .quantityOnHand(14)
-                    .createdDate(LocalDateTime.now())
-                    .updatedDate(LocalDateTime.now())
-                    .build();
-
-            beerRepository.save(beer1);
-            beerRepository.save(beer2);
-            beerRepository.save(beer3);
-        }
-    }
 }

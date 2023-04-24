@@ -1,5 +1,6 @@
 package com.s6restapi.spring6restapi.service;
 
+import com.s6restapi.spring6restapi.entities.Customer;
 import com.s6restapi.spring6restapi.mappers.CustomerMapper;
 import com.s6restapi.spring6restapi.model.CustomerDTO;
 import com.s6restapi.spring6restapi.repositories.CustomerRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Primary
@@ -21,8 +23,11 @@ public class CustomerServiceJPA implements CustomerService {
 
     @Override
     public List<CustomerDTO> listCustomer() {
-        return null;
+        return customerRepository.findAll().stream()
+                .map(customerMapper::customerToCustomerDto)
+                .collect(Collectors.toList());
     }
+
 
     @Override
     public Optional<CustomerDTO> getCustomerById(UUID id) {
