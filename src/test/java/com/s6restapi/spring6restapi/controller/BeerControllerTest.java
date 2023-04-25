@@ -1,6 +1,7 @@
 package com.s6restapi.spring6restapi.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.s6restapi.spring6restapi.entities.Beer;
 import com.s6restapi.spring6restapi.model.BeerDTO;
 import com.s6restapi.spring6restapi.service.BeerService;
 import com.s6restapi.spring6restapi.service.BeerServiceImpl;
@@ -76,6 +77,8 @@ class BeerControllerTest {
 
         BeerDTO beer = beerServiceImpl.listBeers().get(0);
 
+        given(beerService.deleteById(any())).willReturn(true);
+
         mockMvc.perform(delete("/api/v1/beer/" + beer.getId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
@@ -90,6 +93,8 @@ class BeerControllerTest {
     void testUpdateBeer() throws Exception {
 
         BeerDTO beer = beerServiceImpl.listBeers().get(0);
+
+        given(beerService.updateBeerById(any(), any())).willReturn(Optional.of(beer));
 
         mockMvc.perform(put("/api/v1/beer/" + beer.getId())
                 .accept(MediaType.APPLICATION_JSON)
@@ -125,7 +130,7 @@ class BeerControllerTest {
     void testBeerList() throws Exception {
         given(beerService.listBeers()).willReturn(beerServiceImpl.listBeers());
 
-        mockMvc.perform(get("/api/v1/beer")
+        mockMvc.perform(get(BeerController.BEER_PATH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -149,7 +154,7 @@ class BeerControllerTest {
 
         given(beerService.getBeerById(testBeer.getId())).willReturn(Optional.of(testBeer));
 
-       mockMvc.perform(get("/api/v1/beer/" + testBeer.getId())
+       mockMvc.perform(get(BeerController.BEER_PATH_ID, testBeer.getId())
                .accept(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
