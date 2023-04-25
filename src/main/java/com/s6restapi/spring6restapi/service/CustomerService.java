@@ -1,6 +1,5 @@
 package com.s6restapi.spring6restapi.service;
 
-import com.s6restapi.spring6restapi.entities.Customer;
 import com.s6restapi.spring6restapi.model.CustomerDTO;
 
 import java.util.List;
@@ -15,9 +14,9 @@ public interface CustomerService {
 
     CustomerDTO saveCustomer(CustomerDTO customer);
 
-    void updateCustomerById(UUID customerId, CustomerDTO customer);
+    Optional<CustomerDTO> updateCustomerById(UUID customerId, CustomerDTO customer);
 
-    void deleteById(UUID customerId);
+    Boolean deleteById(UUID customerId);
 
-    void updatePatchById(UUID customerId, CustomerDTO customer);
+    Optional<CustomerDTO> updatePatchById(UUID customerId, CustomerDTO customer);
 }
