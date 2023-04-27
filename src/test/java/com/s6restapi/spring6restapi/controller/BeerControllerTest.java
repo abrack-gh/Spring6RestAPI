@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.s6restapi.spring6restapi.entities.Beer;
 import com.s6restapi.spring6restapi.model.BeerDTO;
+import com.s6restapi.spring6restapi.repositories.BeerRepository;
 import com.s6restapi.spring6restapi.service.BeerService;
 import com.s6restapi.spring6restapi.service.BeerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,6 +50,7 @@ class BeerControllerTest {
     ArgumentCaptor<BeerDTO> beerCaptor;
 
     BeerServiceImpl beerServiceImpl;
+
 
     @BeforeEach
     void setUp() {
@@ -179,5 +181,20 @@ class BeerControllerTest {
                         .andExpect(jsonPath("$.length()", is(2))).andReturn();
 
         System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void testUpdateBeerBlankName() throws Exception {
+        BeerDTO beer = beerServiceImpl.listBeers().get(0);
+        beer.setBeerName("");
+        given(beerService.updateBeerById(any(), any())).willReturn(Optional.of(beer));
+
+        mockMvc.perform(put(BeerController.BEER_PATH_ID, beer.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beer)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.length()", is(1)));
+
     }
 }
