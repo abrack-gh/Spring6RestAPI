@@ -1,6 +1,7 @@
 package com.s6restapi.spring6restapi.controller;
 
 import com.s6restapi.spring6restapi.model.BeerDTO;
+import com.s6restapi.spring6restapi.model.BeerStyle;
 import com.s6restapi.spring6restapi.service.BeerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,11 +66,19 @@ public class BeerController {
 
 
     @GetMapping(value = BEER_PATH)
-    public List<BeerDTO> listBeers(){
+    public List<BeerDTO> listBeers(@RequestParam(required = false)String beerName,
+                                   @RequestParam(required = false) BeerStyle beerStyle,
+                                   @RequestParam(required = false) Boolean showInventory){
 
-        return beerService.listBeers();
+        return beerService.listBeers(beerName, beerStyle, showInventory);
 
     }
+
+//    @GetMapping(value = BEER_PATH)
+//    public List<BeerDTO> listBeersByStyle(@RequestParam(required = false) String beerStyle) {
+//
+//        return beerService.listBeersByStyle(beerStyle);
+//    }
 
     @GetMapping(value = BEER_PATH_ID)
     public BeerDTO getBeerById(@PathVariable("beerId") UUID beerId){

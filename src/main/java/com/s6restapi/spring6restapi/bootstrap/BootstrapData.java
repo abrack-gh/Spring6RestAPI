@@ -2,9 +2,7 @@ package com.s6restapi.spring6restapi.bootstrap;
 
 import com.s6restapi.spring6restapi.entities.Beer;
 import com.s6restapi.spring6restapi.entities.Customer;
-import com.s6restapi.spring6restapi.mappers.BeerMapper;
 import com.s6restapi.spring6restapi.model.BeerCSVRecord;
-import com.s6restapi.spring6restapi.model.BeerDTO;
 import com.s6restapi.spring6restapi.model.BeerStyle;
 import com.s6restapi.spring6restapi.repositories.BeerRepository;
 import com.s6restapi.spring6restapi.repositories.CustomerRepository;
@@ -23,7 +21,6 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
