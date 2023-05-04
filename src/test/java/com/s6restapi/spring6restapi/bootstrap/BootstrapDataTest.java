@@ -27,7 +27,7 @@ class BootstrapDataTest {
 
     @BeforeEach
     void setUp() {
-        bootstrapData = new BootstrapData(customerRepository, beerRepository);
+        bootstrapData = new BootstrapData(customerRepository, beerRepository, (BeerCsvService) bootstrapData);
     }
 
     @Test
