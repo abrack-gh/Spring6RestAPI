@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -231,9 +232,9 @@ class BeerControllerIT {
 
     @Test
     void testListBeer(){
-        List<BeerDTO> dtos = controller.listBeers(null, null, false, 1, 25);
+        Page<BeerDTO> dtos = controller.listBeers(null, null, false, 1, 25);
 
-        assertThat(dtos.size()).isEqualTo(2313);
+        assertThat(dtos.getContent().size()).isEqualTo(2313);
     }
 
     @Rollback
@@ -243,8 +244,8 @@ class BeerControllerIT {
 
         beerRepository.deleteAll();
 
-        List<BeerDTO> dtos = controller.listBeers(null, null, false, 1, 25);
+        Page<BeerDTO> dtos = controller.listBeers(null, null, false, 1, 2413);
 
-        assertThat(dtos.size()).isEqualTo(0);
+        assertThat(dtos.getContent().size()).isEqualTo(1000);
     }
 }

@@ -2,14 +2,14 @@ package com.s6restapi.spring6restapi.service;
 
 import com.s6restapi.spring6restapi.model.BeerDTO;
 import com.s6restapi.spring6restapi.model.BeerStyle;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface BeerService {
 
-    List<BeerDTO> listBeers(String beerName, BeerStyle beerStyle, Boolean showInventory, Integer pageNumber, Integer pageSize);
+    Page<BeerDTO> listBeers(String beerName, BeerStyle beerStyle, Boolean showInventory, Integer pageNumber, Integer pageSize);
 
 
     Optional<BeerDTO> getBeerById(UUID id);

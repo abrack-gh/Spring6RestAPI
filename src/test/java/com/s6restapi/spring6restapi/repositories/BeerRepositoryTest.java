@@ -2,7 +2,6 @@ package com.s6restapi.spring6restapi.repositories;
 
 import com.s6restapi.spring6restapi.bootstrap.BootstrapData;
 import com.s6restapi.spring6restapi.entities.Beer;
-import com.s6restapi.spring6restapi.model.BeerCSVRecord;
 import com.s6restapi.spring6restapi.model.BeerStyle;
 import com.s6restapi.spring6restapi.service.BeerCsvServiceImpl;
 import jakarta.validation.ConstraintViolationException;
@@ -10,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -27,9 +26,9 @@ class BeerRepositoryTest {
 
     @Test
     void testBeerByName(){
-        List<Beer> list = beerRepository.findAllByBeerNameIsLikeIgnoreCase("%IPA"); //return any beers with IPA in beername
+        Page<Beer> list = beerRepository.findAllByBeerNameIsLikeIgnoreCase("%IPA", null); //return any beers with IPA in beername
 
-        assertThat(list.size()).isEqualTo(30);
+        assertThat(list.getContent().size()).isEqualTo(30);
     }
 
     @Test
